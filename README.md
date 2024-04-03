@@ -256,10 +256,37 @@ possible.
 Make sure to include the code to derive the (numeric) fact for the
 statement
 
+``` r
+dead <- av %>% pivot_longer(cols = starts_with("Death"), names_to = "Time", values_to = "Death")
+dead$Time <- parse_number(dead$Time)
+
+numReturned <- dead %>% filter(dead$Return1 == "YES")
+nrow(numReturned)
+```
+
+    ## [1] 230
+
+``` r
+totalDied <- dead %>% filter(dead$Return1 != "")
+nrow(totalDied)
+```
+
+    ## [1] 345
+
+``` r
+chanceToReturnFirstTime <- nrow(numReturned) / nrow(totalDied)
+chanceToReturnFirstTime
+```
+
+    ## [1] 0.6666667
+
 ### Include your answer
 
-Include at least one sentence discussing the result of your
-fact-checking endeavor.
+**The data in the article is really accurate considering I counted all
+the avengers that returned the first time, then counted all the avengers
+regardless of if they returned or died and took the number returned over
+the total died and got 0.6666 which translates directly to a “2-in-3
+chance”**
 
 Upload your changes to the repository. Discuss and refine answers as a
 team.
