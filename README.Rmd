@@ -34,10 +34,6 @@ head(deaths)
 deaths$Time <- parse_number(deaths$Time)
 head(deaths)
 
-
-deaths <- filter(deaths, deaths$Death == "YES")
-head(deaths)
-mean(deaths$Time)
 ```
 
 Get the data into a format where the five columns for Death[1-5] are replaced by two columns: Time, and Death. Time should be a number between 1 and 5 (look into the function `parse_number`); Death is a categorical variables with values "yes", "no" and "". Call the resulting data set `deaths`. 
@@ -56,6 +52,14 @@ head(returns)
 ```
 
 Based on these datasets calculate the average number of deaths an Avenger suffers. 
+
+```{r}
+
+deaths <- filter(deaths, deaths$Death == "YES")
+head(deaths)
+mean(deaths$Time)
+```
+
 
 ## Individually
 
