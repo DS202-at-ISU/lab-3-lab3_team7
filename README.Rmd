@@ -45,10 +45,6 @@ returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "RTime",
 head(returns)
 returns$RTime <- parse_number(returns$RTime)
 head(returns)
-
-
-returns <- filter(returns, returns$Return == "YES")
-head(returns)
 ```
 
 Based on these datasets calculate the average number of deaths an Avenger suffers. 
@@ -112,4 +108,47 @@ chanceToReturnFirstTime
 
 **The data in the article is really accurate considering I counted all the avengers that returned the first time, then counted all the avengers regardless of if they returned or died and took the number returned over the total died and got 0.6666 which translates directly to a "2-in-3 chance"**
 
-Upload your changes to the repository. Discuss and refine answers as a team.
+
+## Individually - Gavin Anderson
+
+For each team member, copy this part of the report. 
+
+Each team member picks one of the statements in the FiveThirtyEight [analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/) and fact checks it based on the data. Use dplyr functionality whenever possible.
+
+### FiveThirtyEight Statement
+
+> "Given the Avengers’ 53 years in operation and overall mortality rate, fans of the comics can expect one current or former member to die every seven months or so, with a permanent death occurring once every 20 months."
+
+### Include the code
+
+```{r}
+
+```
+
+### Include your answer
+
+Include at least one sentence discussing the result of your fact-checking endeavor.
+
+
+
+## Individually - Carolyn Jones
+
+### FiveThirtyEight Statement
+
+> "Out of 173 listed Avengers, my analysis found that 69 had died at least one time after they joined the team. That’s about 40 percent"
+
+### Include the code
+
+```{r}
+deaths <- filter(deaths, deaths$Death == "YES" & deaths$Time == 1)
+nrow(deaths) # 69
+
+69/173 # percentage of deaths
+```
+
+
+### Include your answer
+
+After filtering the deaths dataset to only contain avengers who died at least 1 time, the number of remaining avengers was 69, which is accurate to what the article said. I also divided this number by the total number of avengers to confirm that it was about 40%
+
+
