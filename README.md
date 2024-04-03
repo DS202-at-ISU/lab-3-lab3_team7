@@ -236,3 +236,30 @@ fact-checking endeavor.
 
 Upload your changes to the repository. Discuss and refine answers as a
 team.
+
+## Individually - Emily Maruska
+
+For each team member, copy this part of the report.
+
+Each team member picks one of the statements in the FiveThirtyEight
+[analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/)
+and fact checks it based on the data. Use dplyr functionality whenever
+possible.
+
+### FiveThirtyEight Statement
+
+> “There’s a 2-in-3 chance that a member of the Avengers returned from
+> their first stint in the afterlife”
+
+### Include the code
+
+Make sure to include the code to derive the (numeric) fact for the
+statement
+
+### Include your answer
+
+Include at least one sentence discussing the result of your
+fact-checking endeavor.
+
+Upload your changes to the repository. Discuss and refine answers as a
+team.
