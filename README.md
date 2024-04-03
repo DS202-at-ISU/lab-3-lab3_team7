@@ -28,6 +28,16 @@ Extract from the data below two data sets in long form `deaths` and
 library(tidyverse)
 ```
 
+    ## Warning: package 'tidyverse' was built under R version 4.3.3
+
+    ## Warning: package 'tidyr' was built under R version 4.3.3
+
+    ## Warning: package 'purrr' was built under R version 4.3.3
+
+    ## Warning: package 'forcats' was built under R version 4.3.3
+
+    ## Warning: package 'lubridate' was built under R version 4.3.3
+
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
     ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -242,9 +252,6 @@ statement
 Include at least one sentence discussing the result of your
 fact-checking endeavor.
 
-Upload your changes to the repository. Discuss and refine answers as a
-team.
-
 ## Individually - Gavin Anderson
 
 For each team member, copy this part of the report.
@@ -268,5 +275,31 @@ possible.
 Include at least one sentence discussing the result of your
 fact-checking endeavor.
 
-Upload your changes to the repository. Discuss and refine answers as a
-team.
+## Individually - Carolyn Jones
+
+### FiveThirtyEight Statement
+
+> “Out of 173 listed Avengers, my analysis found that 69 had died at
+> least one time after they joined the team. That’s about 40 percent”
+
+### Include the code
+
+``` r
+deaths <- filter(deaths, deaths$Death == "YES" & deaths$Time == 1)
+nrow(deaths) # 69
+```
+
+    ## [1] 69
+
+``` r
+69/173 # percentage of deaths
+```
+
+    ## [1] 0.3988439
+
+### Include your answer
+
+After filtering the deaths dataset to only contain avengers who died at
+least 1 time, the number of remaining avengers was 69, which is accurate
+to what the article said. I also divided this number by the total number
+of avengers to confirm that it was about 40%
