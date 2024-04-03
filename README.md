@@ -29,10 +29,10 @@ library(tidyverse)
 ```
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
     ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-    ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+    ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
     ## ✔ purrr     1.0.2     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
@@ -164,25 +164,6 @@ head(returns)
     ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, RTime <dbl>,
     ## #   Return <chr>
 
-``` r
-returns <- filter(returns, returns$Return == "YES")
-head(returns)
-```
-
-    ## # A tibble: 6 × 18
-    ##   URL                 Name.Alias Appearances Current. Gender Probationary.Introl
-    ##   <chr>               <chr>            <int> <chr>    <chr>  <chr>              
-    ## 1 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
-    ## 2 http://marvel.wiki… "Anthony …        3068 YES      MALE   ""                 
-    ## 3 http://marvel.wiki… "Robert B…        2089 YES      MALE   ""                 
-    ## 4 http://marvel.wiki… "Thor Odi…        2402 YES      MALE   ""                 
-    ## 5 http://marvel.wiki… "Steven R…        3458 YES      MALE   ""                 
-    ## 6 http://marvel.wiki… "Clinton …        1456 YES      MALE   ""                 
-    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
-    ## #   Years.since.joining <int>, Honorary <chr>, Death1 <chr>, Death2 <chr>,
-    ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, RTime <dbl>,
-    ## #   Return <chr>
-
 Based on these datasets calculate the average number of deaths an
 Avenger suffers.
 
@@ -255,6 +236,32 @@ possible.
 
 Make sure to include the code to derive the (numeric) fact for the
 statement
+
+### Include your answer
+
+Include at least one sentence discussing the result of your
+fact-checking endeavor.
+
+Upload your changes to the repository. Discuss and refine answers as a
+team.
+
+## Individually - Gavin Anderson
+
+For each team member, copy this part of the report.
+
+Each team member picks one of the statements in the FiveThirtyEight
+[analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/)
+and fact checks it based on the data. Use dplyr functionality whenever
+possible.
+
+### FiveThirtyEight Statement
+
+> “Given the Avengers’ 53 years in operation and overall mortality rate,
+> fans of the comics can expect one current or former member to die
+> every seven months or so, with a permanent death occurring once every
+> 20 months.”
+
+### Include the code
 
 ### Include your answer
 
