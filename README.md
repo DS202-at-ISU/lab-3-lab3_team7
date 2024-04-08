@@ -28,16 +28,6 @@ Extract from the data below two data sets in long form `deaths` and
 library(tidyverse)
 ```
 
-    ## Warning: package 'tidyverse' was built under R version 4.3.3
-
-    ## Warning: package 'tidyr' was built under R version 4.3.3
-
-    ## Warning: package 'purrr' was built under R version 4.3.3
-
-    ## Warning: package 'forcats' was built under R version 4.3.3
-
-    ## Warning: package 'lubridate' was built under R version 4.3.3
-
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
     ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -91,6 +81,8 @@ head(av)
     ## 6                                                                                                                                                                             <NA>
 
 ``` r
+#gavins<-tally(group_by(av,Death1,Death2,Death3,Death4,Death5, sort = FALSE))
+
 deaths <- av %>% pivot_longer(cols = starts_with("Death"), names_to = "Time", values_to = "Death")
 head(deaths)
 ```
@@ -110,8 +102,18 @@ head(deaths)
     ## #   Death <chr>
 
 ``` r
-deaths$Time <- parse_number(deaths$Time)
-head(deaths)
+#deaths$Time <- parse_number(deaths$Time)
+#head(deaths)
+
+gavin4<-deaths%>%group_by(Name.Alias, URL)%>%count(Death)
+
+gavin5 = filter(gavin4, Death == "YES")
+
+  
+#doing the same thing we did for deaths with returns now
+
+returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "Time2", values_to = "return")
+head(returns)
 ```
 
     ## # A tibble: 6 × 18
@@ -124,9 +126,24 @@ head(deaths)
     ## 5 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
     ## 6 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
     ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
-    ## #   Years.since.joining <int>, Honorary <chr>, Return1 <chr>, Return2 <chr>,
-    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <dbl>,
-    ## #   Death <chr>
+    ## #   Years.since.joining <int>, Honorary <chr>, Death1 <chr>, Death2 <chr>,
+    ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, Time2 <chr>,
+    ## #   return <chr>
+
+``` r
+#deaths$Time <- parse_number(deaths$Time)
+#head(deaths)
+
+gavin6<-returns%>%group_by(Name.Alias, URL)%>%count(return)
+
+gavin7 = filter(gavin6, return == "YES")
+
+
+
+# merging our two dataframes into one
+
+Gavin8<- merge(gavin5,gavin7, by=c("Name.Alias", "URL"))
+```
 
 Get the data into a format where the five columns for Death\[1-5\] are
 replaced by two columns: Time, and Death. Time should be a number
@@ -193,14 +210,17 @@ head(deaths)
     ## 6 http://marvel.wiki… "Thor Odi…        2402 YES      MALE   ""                 
     ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
     ## #   Years.since.joining <int>, Honorary <chr>, Return1 <chr>, Return2 <chr>,
-    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <dbl>,
+    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <chr>,
     ## #   Death <chr>
 
 ``` r
 mean(deaths$Time)
 ```
 
-    ## [1] 1.303371
+    ## Warning in mean.default(deaths$Time): argument is not numeric or logical:
+    ## returning NA
+
+    ## [1] NA
 
 ## Individually
 
@@ -316,7 +336,7 @@ deaths <- filter(deaths, deaths$Death == "YES" & deaths$Time == 1)
 nrow(deaths) # 69
 ```
 
-    ## [1] 69
+    ## [1] 0
 
 ``` r
 69/173 # percentage of deaths

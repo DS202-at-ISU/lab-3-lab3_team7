@@ -33,17 +33,30 @@ head(av)
 
 deaths <- av %>% pivot_longer(cols = starts_with("Death"), names_to = "Time", values_to = "Death")
 head(deaths)
-gavins2<-tally(group_by(deaths, Name.Alias,Death))
-head(gavins2)
 #deaths$Time <- parse_number(deaths$Time)
 #head(deaths)
 
-gavin3<-gavins2
+gavin4<-deaths%>%group_by(Name.Alias, URL)%>%count(Death)
 
-gavin3<-gavin3%>%group_by(Name.Alias)%>%count(Death)
+gavin5 = filter(gavin4, Death == "YES")
 
-gavin4<-deaths%>%group_by(Name.Alias)%>%count(DeathYES)
+  
+#doing the same thing we did for deaths with returns now
 
+returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "Time2", values_to = "return")
+head(returns)
+#deaths$Time <- parse_number(deaths$Time)
+#head(deaths)
+
+gavin6<-returns%>%group_by(Name.Alias, URL)%>%count(return)
+
+gavin7 = filter(gavin6, return == "YES")
+
+
+
+# merging our two dataframes into one
+
+Gavin8<- merge(gavin5,gavin7, by=c("Name.Alias", "URL"))
 
 ```
 
