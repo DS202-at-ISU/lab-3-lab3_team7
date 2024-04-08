@@ -29,10 +29,21 @@ library(tidyverse)
 av <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/avengers/avengers.csv", stringsAsFactors = FALSE)
 head(av)
 
+#gavins<-tally(group_by(av,Death1,Death2,Death3,Death4,Death5, sort = FALSE))
+
 deaths <- av %>% pivot_longer(cols = starts_with("Death"), names_to = "Time", values_to = "Death")
 head(deaths)
-deaths$Time <- parse_number(deaths$Time)
-head(deaths)
+gavins2<-tally(group_by(deaths, Name.Alias,Death))
+head(gavins2)
+#deaths$Time <- parse_number(deaths$Time)
+#head(deaths)
+
+gavin3<-gavins2
+
+gavin3<-gavin3%>%group_by(Name.Alias)%>%count(Death)
+
+gavin4<-deaths%>%group_by(Name.Alias)%>%count(DeathYES)
+
 
 ```
 
