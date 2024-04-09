@@ -108,8 +108,17 @@ head(deaths)
 gavin4<-deaths%>%group_by(Name.Alias, URL)%>%count(Death)
 
 gavin5 = filter(gavin4, Death == "YES")
+```
 
-  
+Get the data into a format where the five columns for Death\[1-5\] are
+replaced by two columns: Time, and Death. Time should be a number
+between 1 and 5 (look into the function `parse_number`); Death is a
+categorical variables with values “yes”, “no” and ““. Call the resulting
+data set `deaths`.
+
+Similarly, deal with the returns of characters.
+
+``` r
 #doing the same thing we did for deaths with returns now
 
 returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "Time2", values_to = "return")
@@ -136,67 +145,22 @@ head(returns)
 
 gavin6<-returns%>%group_by(Name.Alias, URL)%>%count(return)
 
-gavin7 = filter(gavin6, return == "YES")
+returns = filter(gavin6, return == "YES")
 
 
 
 # merging our two dataframes into one
 
-Gavin8<- merge(gavin5,gavin7, by=c("Name.Alias", "URL"))
+combined<- merge(gavin5,gavin6, by=c("Name.Alias", "URL"))
 ```
-
-Get the data into a format where the five columns for Death\[1-5\] are
-replaced by two columns: Time, and Death. Time should be a number
-between 1 and 5 (look into the function `parse_number`); Death is a
-categorical variables with values “yes”, “no” and ““. Call the resulting
-data set `deaths`.
-
-Similarly, deal with the returns of characters.
-
-``` r
-returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "RTime", values_to = "Return")
-head(returns)
-```
-
-    ## # A tibble: 6 × 18
-    ##   URL                 Name.Alias Appearances Current. Gender Probationary.Introl
-    ##   <chr>               <chr>            <int> <chr>    <chr>  <chr>              
-    ## 1 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 2 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 3 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 4 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 5 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 6 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
-    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
-    ## #   Years.since.joining <int>, Honorary <chr>, Death1 <chr>, Death2 <chr>,
-    ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, RTime <chr>,
-    ## #   Return <chr>
-
-``` r
-returns$RTime <- parse_number(returns$RTime)
-head(returns)
-```
-
-    ## # A tibble: 6 × 18
-    ##   URL                 Name.Alias Appearances Current. Gender Probationary.Introl
-    ##   <chr>               <chr>            <int> <chr>    <chr>  <chr>              
-    ## 1 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 2 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 3 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 4 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 5 http://marvel.wiki… "Henry Jo…        1269 YES      MALE   ""                 
-    ## 6 http://marvel.wiki… "Janet va…        1165 YES      FEMALE ""                 
-    ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
-    ## #   Years.since.joining <int>, Honorary <chr>, Death1 <chr>, Death2 <chr>,
-    ## #   Death3 <chr>, Death4 <chr>, Death5 <chr>, Notes <chr>, RTime <dbl>,
-    ## #   Return <chr>
 
 Based on these datasets calculate the average number of deaths an
 Avenger suffers.
 
 ``` r
-deaths <- filter(deaths, deaths$Death == "YES")
-head(deaths)
+deaths2 <- filter(deaths, deaths$Death == "YES")
+deaths2$Time <- parse_number(deaths2$Time)
+head(deaths2)
 ```
 
     ## # A tibble: 6 × 18
@@ -210,17 +174,16 @@ head(deaths)
     ## 6 http://marvel.wiki… "Thor Odi…        2402 YES      MALE   ""                 
     ## # ℹ 12 more variables: Full.Reserve.Avengers.Intro <chr>, Year <int>,
     ## #   Years.since.joining <int>, Honorary <chr>, Return1 <chr>, Return2 <chr>,
-    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <chr>,
+    ## #   Return3 <chr>, Return4 <chr>, Return5 <chr>, Notes <chr>, Time <dbl>,
     ## #   Death <chr>
 
 ``` r
-mean(deaths$Time)
+mean(deaths2$Time, na.rm = TRUE)
 ```
 
-    ## Warning in mean.default(deaths$Time): argument is not numeric or logical:
-    ## returning NA
+    ## [1] 1.303371
 
-    ## [1] NA
+**The mean number of deaths an Avenger suffers is 1.3.**
 
 ## Individually
 
@@ -310,17 +273,61 @@ possible.
 
 ### FiveThirtyEight Statement
 
-> “Given the Avengers’ 53 years in operation and overall mortality rate,
-> fans of the comics can expect one current or former member to die
-> every seven months or so, with a permanent death occurring once every
-> 20 months.”
+> “Of the nine Avengers we see on screen — Iron Man, Hulk, Captain
+> America, Thor, Hawkeye, Black Widow, Scarlet Witch, Quicksilver and
+> The Vision — every single one of them has died at least once in the
+> course of their time Avenging in the comics. In fact, Hawkeye died
+> twice!”
 
 ### Include the code
 
+``` r
+combined2<-combined
+
+
+#made a dataframe with only mcu avengers included
+MCU_only<-av[c(3,4,5,7,8,9,16,10,14),-c(4:10)]
+
+head(MCU_only)
+```
+
+    ##                                                       URL
+    ## 3       http://marvel.wikia.com/Anthony_Stark_(Earth-616)
+    ## 4 http://marvel.wikia.com/Robert_Bruce_Banner_(Earth-616)
+    ## 5        http://marvel.wikia.com/Thor_Odinson_(Earth-616)
+    ## 7       http://marvel.wikia.com/Steven_Rogers_(Earth-616)
+    ## 8        http://marvel.wikia.com/Clint_Barton_(Earth-616)
+    ## 9     http://marvel.wikia.com/Pietro_Maximoff_(Earth-616)
+    ##                    Name.Alias Appearances Death1 Return1 Death2 Return2 Death3
+    ## 3 Anthony Edward "Tony" Stark        3068    YES     YES                      
+    ## 4         Robert Bruce Banner        2089    YES     YES                      
+    ## 5                Thor Odinson        2402    YES     YES    YES      NO       
+    ## 7               Steven Rogers        3458    YES     YES                      
+    ## 8      Clinton Francis Barton        1456    YES     YES    YES     YES       
+    ## 9             Pietro Maximoff         769    YES     YES                      
+    ##   Return3 Death4 Return4 Death5 Return5
+    ## 3                                      
+    ## 4                                      
+    ## 5                                      
+    ## 7                                      
+    ## 8                                      
+    ## 9                                      
+    ##                                                                                                                                                                              Notes
+    ## 3 Death: "Later while under the influence of Immortus Stark committed a number of horrible acts and was killed.'  This set up young Tony. Franklin Richards later brought him back
+    ## 4                                                                               Dies in Ghosts of the Future arc. However "he had actually used a hidden Pantheon base to survive"
+    ## 5                                                      Dies in Fear Itself brought back because that's kind of the whole point. Second death in Time Runs Out has not yet returned
+    ## 7                                                                                                                                 Dies at the end of Civil War. Later comes back. 
+    ## 8                       Dies in exploding Kree ship in Averngers Vol. 1  Issue 502. Brought back by Scarlet Witch. Dies again in House of M Vol 1 Issue 7. Is later brought back. 
+    ## 9                                                                                                                               Dies in House of M Vol 1 Issue 7. Later comes back
+
+``` r
+#and verified that every single current mcu character died at least once 
+```
+
 ### Include your answer
 
-Include at least one sentence discussing the result of your
-fact-checking endeavor.
+Looking at the data frame “MCU_only” we can see that all of the onscreen
+Avengers have indeed died at least once.
 
 ## Individually - Carolyn Jones
 
@@ -332,11 +339,12 @@ fact-checking endeavor.
 ### Include the code
 
 ``` r
+deaths$Time <- parse_number(deaths$Time)
 deaths <- filter(deaths, deaths$Death == "YES" & deaths$Time == 1)
 nrow(deaths) # 69
 ```
 
-    ## [1] 0
+    ## [1] 69
 
 ``` r
 69/173 # percentage of deaths
@@ -350,3 +358,76 @@ After filtering the deaths dataset to only contain avengers who died at
 least 1 time, the number of remaining avengers was 69, which is accurate
 to what the article said. I also divided this number by the total number
 of avengers to confirm that it was about 40%
+
+## Individually - John Nesnidal
+
+For each team member, copy this part of the report.
+
+Each team member picks one of the statements in the FiveThirtyEight
+[analysis](https://fivethirtyeight.com/features/avengers-death-comics-age-of-ultron/)
+and fact checks it based on the data. Use dplyr functionality whenever
+possible.
+
+### FiveThirtyEight Statement
+
+> “Given the Avengers’ 53 years in operation and overall mortality rate,
+> fans of the comics can expect one current or former member to die
+> every seven months or so, with a permanent death occurring once every
+> 20 months.”
+
+### Include the code
+
+Make sure to include the code to derive the (numeric) fact for the
+statement
+
+``` r
+totalDeaths <- nrow(deaths2)
+print(totalDeaths)
+```
+
+    ## [1] 89
+
+``` r
+monthsPerDeath <- (53 * 12) / totalDeaths
+print(monthsPerDeath)
+```
+
+    ## [1] 7.146067
+
+``` r
+# Months per death: 7.1
+
+deaths3 <- deaths2 %>%
+  filter(Return1 == "NO" | Return2 == "NO" | Return3 == "NO" |
+           Return4 == "NO" | Return5 == "NO") %>%
+  group_by(URL) %>%
+  summarise(
+    numDeaths = max(Time)
+  )
+
+totalPermDeaths <- nrow(deaths3)
+print(totalPermDeaths)
+```
+
+    ## [1] 32
+
+``` r
+monthsPerPermDeath <- (53 * 12) / totalPermDeaths
+print(monthsPerPermDeath)
+```
+
+    ## [1] 19.875
+
+``` r
+# Months per permanent death: 19.9
+```
+
+### Include your answer
+
+**The data in the article is accurate, rounded to the nearest whole
+number. For the first statement (one death every 7 months), I took 53 \*
+12 and divided it by the number of rows in the deaths table. For the
+second statement (one permanent death every 20 months), I took 53 \* 12
+and divided it by the number of individual Avengers who had a NO
+reported in any of the return columns. These numbers come out to 7.1
+months per death and 19.9 months per permanent death.**

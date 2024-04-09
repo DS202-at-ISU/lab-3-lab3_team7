@@ -41,6 +41,15 @@ gavin4<-deaths%>%group_by(Name.Alias, URL)%>%count(Death)
 gavin5 = filter(gavin4, Death == "YES")
 
   
+
+
+```
+
+Get the data into a format where the five columns for Death[1-5] are replaced by two columns: Time, and Death. Time should be a number between 1 and 5 (look into the function `parse_number`); Death is a categorical variables with values "yes", "no" and "". Call the resulting data set `deaths`. 
+
+Similarly, deal with the returns of characters.
+
+```{r}
 #doing the same thing we did for deaths with returns now
 
 returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "Time2", values_to = "return")
@@ -50,25 +59,15 @@ head(returns)
 
 gavin6<-returns%>%group_by(Name.Alias, URL)%>%count(return)
 
-gavin7 = filter(gavin6, return == "YES")
+returns = filter(gavin6, return == "YES")
 
 
 
 # merging our two dataframes into one
 
-Gavin8<- merge(gavin5,gavin7, by=c("Name.Alias", "URL"))
+combined<- merge(gavin5,gavin6, by=c("Name.Alias", "URL"))
 
-```
 
-Get the data into a format where the five columns for Death[1-5] are replaced by two columns: Time, and Death. Time should be a number between 1 and 5 (look into the function `parse_number`); Death is a categorical variables with values "yes", "no" and "". Call the resulting data set `deaths`. 
-
-Similarly, deal with the returns of characters.
-
-```{r}
-returns <- av %>% pivot_longer(cols = starts_with("Return"), names_to = "RTime", values_to = "Return")
-head(returns)
-returns$RTime <- parse_number(returns$RTime)
-head(returns)
 ```
 
 Based on these datasets calculate the average number of deaths an Avenger suffers. 
@@ -142,18 +141,26 @@ Each team member picks one of the statements in the FiveThirtyEight [analysis](h
 
 ### FiveThirtyEight Statement
 
-> "Given the Avengers’ 53 years in operation and overall mortality rate, fans of the comics can expect one current or former member to die every seven months or so, with a permanent death occurring once every 20 months."
+> "Of the nine Avengers we see on screen — Iron Man, Hulk, Captain America, Thor, Hawkeye, Black Widow, Scarlet Witch, Quicksilver and The Vision — every single one of them has died at least once in the course of their time Avenging in the comics. In fact, Hawkeye died twice!"
 
 ### Include the code
 
 ```{r}
+combined2<-combined
+
+
+#made a dataframe with only mcu avengers included
+MCU_only<-av[c(3,4,5,7,8,9,16,10,14),-c(4:10)]
+
+head(MCU_only)
+
+#and verified that every single current mcu character died at least once 
 
 ```
 
 ### Include your answer
 
-Include at least one sentence discussing the result of your fact-checking endeavor.
-
+Looking at the data frame "MCU_only" we can see that all of the onscreen Avengers have indeed died at least once.
 
 
 ## Individually - Carolyn Jones
